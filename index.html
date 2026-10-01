@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CertTrace — Compliance & Warranty Lifecycle for Electrical Contractors</title>
+  <meta name="description" content="CertTrace connects installation records, certification, manufacturer warranties, approvals and callbacks in one continuous lifecycle record for UK electrical contractors." />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       RESET & BASE
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #0f1623;
+      background: #ffffff;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; outline: none; }
+    ul { list-style: none; }
+
+    /* =========================================================
+       DESIGN TOKENS
+    ========================================================= */
+    :root {
+      --navy:      #0b1e3d;
+      --navy-mid:  #132b52;
+      --navy-light:#1d3f70;
+      --blue:      #1a56db;
+      --blue-light:#3b82f6;
+      --blue-pale: #eff6ff;
+      --accent:    #0ea5e9;
+      --green:     #059669;
+      --amber:     #d97706;
+      --slate:     #64748b;
+      --slate-light:#94a3b8;
+      --border:    #e2e8f0;
+      --border-mid:#cbd5e1;
+      --surface:   #f8fafc;
+      --white:     #ffffff;
+      --shadow-sm: 0 1px 3px rgba(15,22,35,.06), 0 1px 2px rgba(15,22,35,.04);
+      --shadow-md: 0 4px 16px rgba(15,22,35,.08), 0 2px 6px rgba(15,22,35,.05);
+      --shadow-lg: 0 12px 40px rgba(15,22,35,.12), 0 4px 12px rgba(15,22,35,.07);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --transition: 0.22s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* =========================================================
+       UTILITY
+    ========================================================= */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+    .section--alt { background: var(--surface); }
+    .section--dark { background: var(--navy); color: var(--white); }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--blue); background: var(--blue-pale);
+      border: 1px solid rgba(26,86,219,.15);
+      padding: 4px 12px; border-radius: 99px;
+    }
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700; line-height: 1.22; color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .section-lead {
+      font-size: 1.0625rem; color: var(--slate); max-width: 640px;
+      line-height: 1.7;
+    }
+    .section-header { margin-bottom: 56px; }
+    .section-header .badge { margin-bottom: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 32px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+    .text-center { text-align: center; }
+    .text-center .section-lead { margin: 0 auto; }
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+    /* =========================================================
+       NAVBAR
+    ========================================================= */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+    .navbar.scrolled { box-shadow: var(--shadow-md); }
+    .navbar__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px; gap: 24px;
+    }
+    .navbar__logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 1.2rem; font-weight: 700;
+      color: var(--navy); white-space: nowrap;
+    }
+    .navbar__logo-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .navbar__logo-icon svg { width: 18px; height: 18px; color: #fff; }
+    .navbar__nav {
+      display: flex; align-items: center; gap: 2px;
+    }
+    .navbar__nav a {
+      padding: 7px 13px; border-radius: var(--radius-sm);
+      font-size: .875rem; font-weight: 500; color: var(--slate);
+      transition: color var(--transition), background var(--transition);
+      white-space: nowrap;
+    }
+    .navbar__nav a:hover { color: var(--navy); background: var(--surface); }
+    .navbar__cta {
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .navbar__hamburger {
+      display: none; flex-direction: column; gap: 5px; padding: 8px;
+      background: transparent; border-radius: var(--radius-sm);
+    }
+    .navbar__hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--navy); border-radius: 2px;
+      transition: all var(--transition);
+    }
+    .mobile-nav {
+      display: none; position: fixed; top: 68px; left: 0; right: 0; z-index: 899;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 16px 24px 24px;
+      flex-direction: column; gap: 4px;
+      box-shadow: var(--shadow-lg);
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      padding: 10px 12px; border-radius: var(--radius-sm);
+      font-weight: 500; color: var(--slate);
+      transition: color var(--transition), background var(--transition);
+    }
+    .mobile-nav a:hover { color: var(--navy); background: var(--surface); }
+    .mobile-nav .btn-primary { margin-top: 8px; text-align: center; }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--blue); color: #fff;
+      font-size: .9rem; font-weight: 600; padding: 11px 24px;
+      border-radius: var(--radius-sm); border: 1.5px solid var(--blue);
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 2px 8px rgba(26,86,219,.3);
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: #1447c0; border-color: #1447c0; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,86,219,.35); }
+    .btn-primary:active { transform: none; }
+    .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: transparent; color: var(--navy);
+      font-size: .9rem; font-weight: 600; padding: 11px 24px;
+      border-radius: var(--radius-sm); border: 1.5px solid var(--border-mid);
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .btn-outline:hover { border-color: var(--navy); background: var(--surface); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: transparent; color: var(--blue);
+      font-size: .9rem; font-weight: 600; padding: 8px 0;
+      transition: gap var(--transition), color var(--transition);
+    }
+    .btn-ghost:hover { gap: 10px; color: #1447c0; }
+    .btn-large { padding: 14px 32px; font-size: 1rem; border-radius: var(--radius-md); }
+    .btn-white {
+      background: var(--white); color: var(--navy); border: 1.5px solid var(--white);
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    }
+    .btn-white:hover { background: var(--surface); border-color: var(--surface); }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    #home {
+      padding-top: 136px; padding-bottom: 96px;
+      background: linear-gradient(160deg, #f0f5ff 0%, #ffffff 55%, #f8fafc 100%);
+      position: relative; overflow: hidden;
+    }
+    #home::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(26,86,219,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero__inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+    }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .8rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 24px;
+    }
+    .hero__eyebrow-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--blue);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .5; transform: scale(.85); }
+    }
+    .hero__headline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      font-weight: 800; line-height: 1.15; color: var(--navy);
+      margin-bottom: 24px;
+    }
+    .hero__headline em { font-style: normal; color: var(--blue); }
+    .hero__subline {
+      font-size: 1.0625rem; color: var(--slate); line-height: 1.75;
+      max-width: 520px; margin-bottom: 12px;
+    }
+    .hero__context {
+      font-size: .875rem; color: var(--slate-light);
+      margin-bottom: 36px; display: flex; align-items: center; gap: 8px;
+    }
+    .hero__context svg { flex-shrink: 0; }
+    .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* =========================================================
+       HERO VISUAL — LIFECYCLE FLOW
+    ========================================================= */
+    .hero-visual {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .hero-visual__label {
+      font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--slate-light); margin-bottom: 24px;
+    }
+    .lifecycle {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .lifecycle__step {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 14px 0;
+      position: relative;
+    }
+    .lifecycle__step:not(:last-child)::after {
+      content: '';
+      position: absolute; left: 19px; top: 46px; bottom: -12px; width: 2px;
+      background: linear-gradient(to bottom, var(--border) 0%, transparent 100%);
+    }
+    .lifecycle__icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+    }
+    .lifecycle__icon--install  { background: #f0fdf4; }
+    .lifecycle__icon--cert     { background: #eff6ff; }
+    .lifecycle__icon--warranty { background: #fefce8; }
+    .lifecycle__icon--comply   { background: #fdf2f8; }
+    .lifecycle__icon--alert    { background: #fff7ed; }
+    .lifecycle__icon--callback { background: #f1f5f9; }
+    .lifecycle__body { flex: 1; min-width: 0; }
+    .lifecycle__title { font-size: .875rem; font-weight: 700; color: var(--navy); }
+    .lifecycle__desc  { font-size: .78rem; color: var(--slate); margin-top: 2px; line-height: 1.5; }
+    .lifecycle__tag {
+      display: inline-block; font-size: .68rem; font-weight: 600;
+      padding: 2px 8px; border-radius: 99px; margin-top: 6px;
+    }
+    .lifecycle__tag--green  { background: #dcfce7; color: #166534; }
+    .lifecycle__tag--blue   { background: #dbeafe; color: #1e40af; }
+    .lifecycle__tag--amber  { background: #fef3c7; color: #92400e; }
+    .lifecycle__tag--purple { background: #ede9fe; color: #5b21b6; }
+    .lifecycle__tag--orange { background: #ffedd5; color: #9a3412; }
+    .lifecycle__tag--slate  { background: #f1f5f9; color: #475569; }
+
+    .hero-visual__footer {
+      margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .hero-visual__stat { text-align: center; }
+    .hero-visual__stat-num { font-size: 1.25rem; font-weight: 800; color: var(--navy); }
+    .hero-visual__stat-label { font-size: .7rem; color: var(--slate-light); font-weight: 500; }
+    .hero-visual__divider { width: 1px; height: 36px; background: var(--border); }
+
+    /* =========================================================
+       TRUST BAR
+    ========================================================= */
+    .trust-bar {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .trust-bar__inner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .8rem; font-weight: 600; color: var(--slate);
+    }
+    .trust-item svg { color: var(--blue); flex-shrink: 0; }
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+    .about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .about__problem {
+      background: var(--navy);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      color: var(--white);
+      position: relative; overflow: hidden;
+    }
+    .about__problem::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(26,86,219,.18);
+    }
+    .about__problem-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .about__problem-headline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.375rem; font-weight: 700; line-height: 1.35;
+      margin-bottom: 20px;
+    }
+    .about__problem-body { font-size: .9375rem; color: rgba(255,255,255,.72); line-height: 1.72; }
+    .about__fragments {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px;
+    }
+    .about__fragment {
+      font-size: .75rem; font-weight: 600;
+      padding: 5px 12px; border-radius: 99px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.7);
+    }
+    .about__solution {
+      padding: 0;
+    }
+    .about__solution-intro {
+      font-size: 1.0625rem; color: var(--slate); line-height: 1.75; margin-bottom: 32px;
+    }
+    .about__solution-points { display: flex; flex-direction: column; gap: 16px; }
+    .about__point {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 18px; border: 1px solid var(--border);
+      border-radius: var(--radius-md); background: var(--white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .about__point:hover { border-color: var(--blue-light); box-shadow: var(--shadow-sm); }
+    .about__point-icon {
+      width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+      background: var(--blue-pale); color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about__point-icon svg { width: 18px; height: 18px; }
+    .about__point-body { flex: 1; }
+    .about__point-title { font-size: .9rem; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+    .about__point-desc { font-size: .84rem; color: var(--slate); line-height: 1.55; }
+
+    /* =========================================================
+       FOUNDERS
+    ========================================================= */
+    .founders { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 64px; }
+    .founder-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .founder-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .founder-card__avatar {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Sans', sans-serif; font-size: 1.3rem; font-weight: 700;
+      color: var(--white); margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(26,86,219,.25);
+    }
+    .founder-card__name { font-family: 'DM Sans', sans-serif; font-size: 1.125rem; font-weight: 700; color: var(--navy); }
+    .founder-card__role { font-size: .84rem; font-weight: 600; color: var(--blue); margin: 4px 0 16px; }
+    .founder-card__resp { font-size: .875rem; color: var(--slate); line-height: 1.65; margin-bottom: 20px; }
+    .founder-card__quals { display: flex; flex-direction: column; gap: 8px; }
+    .founder-card__qual {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: .8rem; color: var(--slate);
+    }
+    .founder-card__qual-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue); margin-top: 6px; flex-shrink: 0;
+    }
+
+    /* =========================================================
+       PLATFORM
+    ========================================================= */
+    .platform-categories { display: flex; flex-direction: column; gap: 48px; }
+    .platform-category__header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .platform-category__pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 99px;
+    }
+    .pill--capture  { background: #dcfce7; color: #166534; }
+    .pill--protect  { background: #dbeafe; color: #1e40af; }
+    .pill--maintain { background: #fef3c7; color: #92400e; }
+    .pill--connect  { background: #ede9fe; color: #5b21b6; }
+    .platform-category__desc { font-size: .9rem; color: var(--slate); }
+    .capability-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .capability-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .capability-card:hover {
+      border-color: var(--blue-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .capability-card__num {
+      font-size: .72rem; font-weight: 700; color: var(--slate-light);
+      margin-bottom: 12px; letter-spacing: .04em;
+    }
+    .capability-card__icon {
+      font-size: 1.4rem; margin-bottom: 12px; display: block;
+    }
+    .capability-card__title {
+      font-size: .9375rem; font-weight: 700; color: var(--navy); margin-bottom: 6px;
+    }
+    .capability-card__desc {
+      font-size: .82rem; color: var(--slate); line-height: 1.6;
+    }
+
+    /* WARRANTY ENGINE */
+    .warranty-engine {
+      margin-top: 56px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      color: var(--white);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+    }
+    .warranty-engine__title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.5rem; font-weight: 700; margin-bottom: 16px;
+    }
+    .warranty-engine__body { font-size: .9375rem; color: rgba(255,255,255,.7); line-height: 1.75; }
+    .warranty-engine__highlight {
+      margin-top: 24px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      font-size: .84rem; color: rgba(255,255,255,.8); line-height: 1.65;
+    }
+    .warranty-engine__rules {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .warranty-rule {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+    .warranty-rule__icon { font-size: 1.1rem; margin-bottom: 8px; }
+    .warranty-rule__label { font-size: .8rem; font-weight: 600; color: rgba(255,255,255,.9); }
+    .warranty-rule__value { font-size: .75rem; color: rgba(255,255,255,.55); margin-top: 2px; }
+
+    /* =========================================================
+       HOW IT WORKS
+    ========================================================= */
+    .how-steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; position: relative;
+    }
+    .how-steps::before {
+      content: '';
+      position: absolute; top: 36px; left: calc(100% / 6);
+      right: calc(100% / 6); height: 2px;
+      background: linear-gradient(to right, var(--border) 0%, var(--blue-light) 50%, var(--border) 100%);
+      z-index: 0;
+    }
+    .step-card {
+      text-align: center; padding: 32px 24px;
+      position: relative; z-index: 1;
+    }
+    .step-card__num {
+      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      box-shadow: 0 4px 16px rgba(26,86,219,.3);
+      border: 3px solid var(--white);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .step-card:hover .step-card__num { transform: scale(1.08); box-shadow: 0 8px 24px rgba(26,86,219,.4); }
+    .step-card__title { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+    .step-card__desc { font-size: .875rem; color: var(--slate); line-height: 1.65; }
+
+    /* COMPARISON */
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 64px; }
+    .comparison-panel {
+      border-radius: var(--radius-lg); padding: 36px;
+      border: 1px solid var(--border);
+    }
+    .comparison-panel--before {
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+    .comparison-panel--after {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+    .comparison-panel__header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+    }
+    .comparison-panel__icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .comparison-panel__icon--before { background: #fee2e2; }
+    .comparison-panel__icon--after  { background: rgba(255,255,255,.1); }
+    .comparison-panel__title { font-size: 1rem; font-weight: 700; }
+    .comparison-panel--before .comparison-panel__title { color: #991b1b; }
+    .fragments-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .fragment-chip {
+      font-size: .78rem; font-weight: 600;
+      padding: 5px 12px; border-radius: 99px;
+      background: white; border: 1px solid #fca5a5; color: #991b1b;
+    }
+    .fragments-arrow {
+      font-size: 1.3rem; text-align: center;
+      color: #ef4444; font-weight: 900; margin-bottom: 16px;
+    }
+    .fragments-result {
+      font-size: .875rem; font-weight: 700; color: #dc2626;
+      background: white; border: 1px solid #fca5a5;
+      padding: 10px 16px; border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .after-record {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: var(--radius-md);
+      padding: 24px; text-align: center;
+    }
+    .after-record__icon { font-size: 2rem; margin-bottom: 12px; }
+    .after-record__label { font-size: 1.0625rem; font-weight: 700; margin-bottom: 6px; }
+    .after-record__desc { font-size: .84rem; color: rgba(255,255,255,.65); line-height: 1.65; }
+
+    /* =========================================================
+       MARKET & PRICING
+    ========================================================= */
+    .market-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .market-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      position: relative; overflow: hidden;
+    }
+    .market-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .market-card--tam::before  { background: linear-gradient(90deg, var(--navy), var(--blue)); }
+    .market-card--sam::before  { background: linear-gradient(90deg, var(--blue), var(--accent)); }
+    .market-card--target::before { background: linear-gradient(90deg, var(--green), #34d399); }
+    .market-card__label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .market-card--tam .market-card__label { color: var(--navy); }
+    .market-card--sam .market-card__label { color: var(--blue); }
+    .market-card--target .market-card__label { color: var(--green); }
+    .market-card__title { font-size: .9rem; color: var(--slate); margin-bottom: 20px; }
+    .market-card__value {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2rem; font-weight: 800; color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .market-card__sub { font-size: .84rem; color: var(--slate); margin-bottom: 20px; }
+    .market-card__detail {
+      font-size: .8rem; color: var(--slate);
+      padding-top: 16px; border-top: 1px solid var(--border);
+      line-height: 1.65;
+    }
+    .market-disclaimer {
+      margin-top: 24px; padding: 16px 20px;
+      background: #fffbeb; border: 1px solid #fde68a;
+      border-radius: var(--radius-md);
+      font-size: .8rem; color: #92400e; line-height: 1.65;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .market-disclaimer svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* PRICING */
+    .pricing-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+    .pricing-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+      position: relative;
+    }
+    .pricing-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .pricing-card--featured {
+      border-color: var(--blue); border-width: 2px;
+      box-shadow: 0 4px 24px rgba(26,86,219,.15);
+    }
+    .pricing-card__badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      font-size: .7rem; font-weight: 700; padding: 4px 14px;
+      background: var(--blue); color: white; border-radius: 99px;
+      white-space: nowrap;
+    }
+    .pricing-card__tier { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; }
+    .pricing-card__price {
+      display: flex; align-items: baseline; gap: 2px; margin-bottom: 4px;
+    }
+    .pricing-card__amount {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2.25rem; font-weight: 800; color: var(--navy);
+    }
+    .pricing-card__period { font-size: .9rem; color: var(--slate); }
+    .pricing-card__engineers { font-size: .84rem; color: var(--slate); margin-bottom: 24px; }
+    .pricing-card__cta { width: 100%; }
+
+    .addons { margin-top: 48px; }
+    .addons__title {
+      font-size: .85rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--slate); margin-bottom: 20px;
+    }
+    .addon-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px;
+      border: 1px solid var(--border); border-radius: var(--radius-md);
+      background: var(--white); margin-bottom: 12px;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .addon-row:hover { border-color: var(--blue-light); box-shadow: var(--shadow-sm); }
+    .addon-row__info { display: flex; flex-direction: column; gap: 3px; }
+    .addon-row__name { font-size: .9375rem; font-weight: 700; color: var(--navy); }
+    .addon-row__desc { font-size: .82rem; color: var(--slate); }
+    .addon-row__price { font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--blue); white-space: nowrap; }
+
+    .pricing-note {
+      margin-top: 20px; font-size: .82rem; color: var(--slate);
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* =========================================================
+       FAQ
+    ========================================================= */
+    .faq-list { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-btn {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 4px; gap: 16px;
+      background: transparent; text-align: left;
+      transition: color var(--transition);
+    }
+    .faq-btn:hover { color: var(--blue); }
+    .faq-btn__q { font-size: 1rem; font-weight: 600; color: var(--navy); transition: color var(--transition); }
+    .faq-btn:hover .faq-btn__q { color: var(--blue); }
+    .faq-btn__icon {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid var(--border-mid);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--slate); transition: all var(--transition);
+    }
+    .faq-item.open .faq-btn__icon {
+      background: var(--blue); border-color: var(--blue); color: white;
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      display: none; padding: 0 4px 22px;
+      font-size: .9375rem; color: var(--slate); line-height: 1.75;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* =========================================================
+       CTA BAND
+    ========================================================= */
+    .cta-band {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
+      padding: 80px 0; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(26,86,219,.25) 0%, transparent 70%);
+    }
+    .cta-band__inner { position: relative; }
+    .cta-band__headline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800; color: var(--white);
+      margin-bottom: 16px; line-height: 1.22;
+    }
+    .cta-band__subline { font-size: 1.0625rem; color: rgba(255,255,255,.7); margin-bottom: 36px; }
+    .cta-band__actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      background: #07111f;
+      color: rgba(255,255,255,.6);
+      padding: 64px 0 0;
+    }
+    .footer__grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer__brand-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--white); margin-bottom: 14px;
+    }
+    .footer__brand-logo-icon {
+      width: 30px; height: 30px; border-radius: 7px;
+      background: linear-gradient(135deg, var(--navy-mid), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer__brand-logo-icon svg { width: 15px; height: 15px; color: #fff; }
+    .footer__brand-desc { font-size: .875rem; line-height: 1.7; margin-bottom: 24px; }
+    .footer__col-title {
+      font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin-bottom: 16px;
+    }
+    .footer__links { display: flex; flex-direction: column; gap: 10px; }
+    .footer__links a {
+      font-size: .875rem; color: rgba(255,255,255,.55);
+      transition: color var(--transition);
+    }
+    .footer__links a:hover { color: var(--white); }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .8rem; flex-wrap: wrap; gap: 12px;
+    }
+
+    /* =========================================================
+       MODAL / PILOT FORM
+    ========================================================= */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(7,17,31,.65); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white); border-radius: var(--radius-xl);
+      padding: 48px; width: 100%; max-width: 520px;
+      box-shadow: var(--shadow-lg);
+      animation: modal-in .3s cubic-bezier(.34,1.4,.64,1);
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(.94) translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .modal__close {
+      position: absolute; top: 20px; right: 20px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--slate); transition: all var(--transition);
+    }
+    .modal__close:hover { background: var(--border); color: var(--navy); }
+    .modal__badge { margin-bottom: 20px; }
+    .modal__title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.625rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .modal__subtitle { font-size: .9375rem; color: var(--slate); line-height: 1.65; margin-bottom: 32px; }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; font-size: .84rem; font-weight: 600;
+      color: var(--navy); margin-bottom: 7px;
+    }
+    .form-label .required { color: var(--blue); margin-left: 2px; }
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-size: .9375rem; color: var(--navy);
+      background: var(--white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+    .form-input.error { border-color: #ef4444; }
+    .form-input.error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+    .form-error { font-size: .78rem; color: #ef4444; margin-top: 5px; display: none; }
+    .form-error.show { display: block; }
+    .form-submit { width: 100%; margin-top: 8px; }
+    .modal-success {
+      display: none; text-align: center; padding: 20px 0;
+    }
+    .modal-success.show { display: block; }
+    .modal-success__icon {
+      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 20px;
+      background: #dcfce7; display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .modal-success__title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.375rem; font-weight: 700; color: var(--navy); margin-bottom: 10px;
+    }
+    .modal-success__body { font-size: .9375rem; color: var(--slate); line-height: 1.65; }
+
+    /* =========================================================
+       ANIMATIONS
+    ========================================================= */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+    .fade-up-delay-1 { transition-delay: .1s; }
+    .fade-up-delay-2 { transition-delay: .2s; }
+    .fade-up-delay-3 { transition-delay: .3s; }
+    .fade-up-delay-4 { transition-delay: .4s; }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 1024px) {
+      .hero__inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { max-width: 560px; }
+      .about__grid { grid-template-columns: 1fr; gap: 40px; }
+      .founders { grid-template-columns: 1fr 1fr; }
+      .capability-grid { grid-template-columns: repeat(2,1fr); }
+      .warranty-engine { grid-template-columns: 1fr; gap: 32px; }
+      .footer__grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 72px 0; }
+      .navbar__nav { display: none; }
+      .navbar__cta .btn-primary { display: none; }
+      .navbar__hamburger { display: flex; }
+      .hero__actions { flex-direction: column; gap: 12px; }
+      .hero__actions .btn-primary, .hero__actions .btn-outline { width: 100%; justify-content: center; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
+      .how-steps { grid-template-columns: 1fr; }
+      .how-steps::before { display: none; }
+      .comparison { grid-template-columns: 1fr; }
+      .market-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .founders { grid-template-columns: 1fr; }
+      .capability-grid { grid-template-columns: 1fr; }
+      .warranty-engine { padding: 32px 24px; }
+      .warranty-engine__rules { grid-template-columns: 1fr 1fr; }
+      .footer__grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer__bottom { flex-direction: column; text-align: center; }
+      .trust-bar__inner { gap: 20px; }
+      .modal { padding: 32px 24px; }
+    }
+    @media (max-width: 480px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .warranty-engine__rules { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="#home" class="navbar__logo" aria-label="CertTrace home">
+        CertTrace
+      </a>
+      <div class="navbar__nav" role="list">
+        <a href="#home"     role="listitem">Home</a>
+        <a href="#about"    role="listitem">About</a>
+        <a href="#platform" role="listitem">Platform</a>
+        <a href="#how"      role="listitem">How It Works</a>
+        <a href="#market"   role="listitem">Market & Pricing</a>
+        <a href="#faq"      role="listitem">FAQ</a>
+      </div>
+      <div class="navbar__cta">
+        <button class="btn-primary" onclick="openModal()" aria-haspopup="dialog">Request a Pilot</button>
+      </div>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Mobile navigation">
+  <a href="#home"     onclick="closeMobileNav()">Home</a>
+  <a href="#about"    onclick="closeMobileNav()">About</a>
+  <a href="#platform" onclick="closeMobileNav()">Platform</a>
+  <a href="#how"      onclick="closeMobileNav()">How It Works</a>
+  <a href="#market"   onclick="closeMobileNav()">Market & Pricing</a>
+  <a href="#faq"      onclick="closeMobileNav()">FAQ</a>
+  <button class="btn-primary btn-large" onclick="closeMobileNav(); openModal();" style="margin-top:8px;">Request a Pilot</button>
+</div>
+
+
+<!-- ============================================================
+     HERO — HOME
+============================================================ -->
+<section id="home" aria-label="Hero">
+  <div class="container">
+    <div class="hero__inner">
+      <!-- Copy -->
+      <div>
+        <div class="hero__eyebrow">
+          <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+          Compliance &amp; Warranty Lifecycle Platform
+        </div>
+        <h1 class="hero__headline fade-up">
+          The compliance record that stays with <em>every installation.</em>
+        </h1>
+        <p class="hero__subline fade-up fade-up-delay-1">
+          CertTrace connects installation records, certification, manufacturer warranties, approvals and callbacks in one continuous lifecycle record for electrical contractors.
+        </p>
+        <p class="hero__context fade-up fade-up-delay-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Initially built for UK electrical contractors installing EV chargepoints.
+        </p>
+        <div class="hero__actions fade-up fade-up-delay-3">
+          <button class="btn-primary btn-large" onclick="openModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.55 11.5 19.79 19.79 0 011.5 2.9 2 2 0 013.48.72h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.37a16 16 0 006.72 6.72l1.72-1.72a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.02z"/></svg>
+            Request a Pilot
+          </button>
+          <a href="#how" class="btn-outline btn-large">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            See How It Works
+          </a>
+        </div>
+      </div>
+
+      <!-- Visual -->
+      <div class="hero-visual fade-up fade-up-delay-2" aria-label="Installation lifecycle diagram">
+        <p class="hero-visual__label">Installation Lifecycle Record</p>
+        <div class="lifecycle" role="list">
+          <div class="lifecycle__step" role="listitem">
+            <div class="lifecycle__icon lifecycle__icon--install" aria-hidden="true">🔌</div>
+            <div class="lifecycle__body">
+              <div class="lifecycle__title">Installation</div>
+              <div class="lifecycle__desc">Engineer records chargepoint install. Location, equipment, commissioning date captured.</div>
+              <span class="lifecycle__tag lifecycle__tag--green">Captured</span>
+            </div>
+          </div>
+          <div class="lifecycle__step" role="listitem">
+            <div class="lifecycle__icon lifecycle__icon--cert" aria-hidden="true">📄</div>
+            <div class="lifecycle__body">
+              <div class="lifecycle__title">Certification</div>
+              <div class="lifecycle__desc">Certificates, notifications and grant documentation stored in one place.</div>
+              <span class="lifecycle__tag lifecycle__tag--blue">Stored</span>
+            </div>
+          </div>
+          <div class="lifecycle__step" role="listitem">
+            <div class="lifecycle__icon lifecycle__icon--warranty" aria-hidden="true">🛡️</div>
+            <div class="lifecycle__body">
+              <div class="lifecycle__title">Warranty</div>
+              <div class="lifecycle__desc">Manufacturer-specific warranty rules evaluated and expiry tracked automatically.</div>
+              <span class="lifecycle__tag lifecycle__tag--amber">Tracked</span>
+            </div>
+          </div>
+          <div class="lifecycle__step" role="listitem">
+            <div class="lifecycle__icon lifecycle__icon--comply" aria-hidden="true">✅</div>
+            <div class="lifecycle__body">
+              <div class="lifecycle__title">Compliance</div>
+              <div class="lifecycle__desc">Scheme registrations, approvals and standards changes monitored continuously.</div>
+              <span class="lifecycle__tag lifecycle__tag--purple">Monitored</span>
+            </div>
+          </div>
+          <div class="lifecycle__step" role="listitem">
+            <div class="lifecycle__icon lifecycle__icon--alert" aria-hidden="true">🔔</div>
+            <div class="lifecycle__body">
+              <div class="lifecycle__title">Alerts</div>
+              <div class="lifecycle__desc">Warranty expiry, approval lapses and standards amendments generate timely alerts.</div>
+              <span class="lifecycle__tag lifecycle__tag--orange">Alerted</span>
+            </div>
+          </div>
+          <div class="lifecycle__step" role="listitem">
+            <div class="lifecycle__icon lifecycle__icon--callback" aria-hidden="true">🔍</div>
+            <div class="lifecycle__body">
+              <div class="lifecycle__title">Callback</div>
+              <div class="lifecycle__desc">Years later — search the address, see the full history. Engineer, brand, warranty, fault log.</div>
+              <span class="lifecycle__tag lifecycle__tag--slate">Resolved</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual__footer">
+          <div class="hero-visual__stat">
+            <div class="hero-visual__stat-num">12</div>
+            <div class="hero-visual__stat-label">Core capabilities</div>
+          </div>
+          <div class="hero-visual__divider" aria-hidden="true"></div>
+          <div class="hero-visual__stat">
+            <div class="hero-visual__stat-num">4</div>
+            <div class="hero-visual__stat-label">Lifecycle stages</div>
+          </div>
+          <div class="hero-visual__divider" aria-hidden="true"></div>
+          <div class="hero-visual__stat">
+            <div class="hero-visual__stat-num">1</div>
+            <div class="hero-visual__stat-label">Continuous record</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Bar -->
+<div class="trust-bar" aria-label="Platform highlights">
+  <div class="container">
+    <div class="trust-bar__inner">
+      <div class="trust-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        UK Cloud Hosting
+      </div>
+      <div class="trust-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Append-Only Audit Trail
+      </div>
+      <div class="trust-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Role-Based Access
+      </div>
+      <div class="trust-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Versioned Rule Library
+      </div>
+      <div class="trust-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Secure Document Storage
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     ABOUT
+============================================================ -->
+<section id="about" class="section section--alt" aria-labelledby="about-title">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="badge" aria-hidden="true">About CertTrace</div>
+      <h2 class="section-title" id="about-title">The job doesn't end when the installation is complete.</h2>
+      <p class="section-lead">CertTrace keeps the installation record connected throughout its full lifecycle — from day of commissioning to years of ongoing compliance.</p>
+    </div>
+
+    <div class="about__grid">
+      <!-- Problem -->
+      <div class="about__problem fade-up">
+        <p class="about__problem-label">The Problem</p>
+        <h3 class="about__problem-headline">Critical records fragment across disconnected systems.</h3>
+        <p class="about__problem-body">
+          After an installation is complete, certificates, manufacturer warranties, installer approvals, scheme records, grant documentation and callback information are scattered across entirely different systems — with no single thread connecting them.
+        </p>
+        <div class="about__fragments" role="list" aria-label="Fragmented data sources">
+          <span class="about__fragment" role="listitem">Certificates</span>
+          <span class="about__fragment" role="listitem">Manufacturer Portals</span>
+          <span class="about__fragment" role="listitem">Scheme Records</span>
+          <span class="about__fragment" role="listitem">Grant Documents</span>
+          <span class="about__fragment" role="listitem">Email Threads</span>
+          <span class="about__fragment" role="listitem">Spreadsheets</span>
+          <span class="about__fragment" role="listitem">Callback Logs</span>
+        </div>
+      </div>
+
+      <!-- Solution -->
+      <div class="about__solution fade-up fade-up-delay-1">
+        <p class="about__solution-intro">
+          CertTrace creates one continuous digital installation record that connects every element of the lifecycle — so nothing is lost when it matters most.
+        </p>
+        <div class="about__solution-points" role="list">
+          <div class="about__point" role="listitem">
+            <div class="about__point-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="about__point-body">
+              <div class="about__point-title">One continuous record</div>
+              <div class="about__point-desc">Installation details, certificates, grants, warranties, approvals and callbacks — all in one place.</div>
+            </div>
+          </div>
+          <div class="about__point" role="listitem">
+            <div class="about__point-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="about__point-body">
+              <div class="about__point-title">Works alongside your existing tools</div>
+              <div class="about__point-desc">CertTrace is not a certificate platform, job-management system or charger monitor. It complements what you already use.</div>
+            </div>
+          </div>
+          <div class="about__point" role="listitem">
+            <div class="about__point-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div class="about__point-body">
+              <div class="about__point-title">Searchable years later</div>
+              <div class="about__point-desc">Find any installation by address — engineer, brand, warranty status and full callback history instantly accessible.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Founders -->
+    <div class="fade-up" style="margin-top: 64px;">
+      <h3 class="section-title" style="font-size: 1.375rem; margin-bottom: 8px;">The Team</h3>
+      <p class="section-lead" style="margin-bottom: 40px;">Built by engineers, for the electrical industry.</p>
+      <div class="founders">
+        <article class="founder-card fade-up fade-up-delay-1">
+          <div class="founder-card__name">Amaan Kausar Saiyed</div>
+          <div class="founder-card__role">Founder &amp; Chief Executive</div>
+          <p class="founder-card__resp">Responsible for business direction, customer acquisition, product direction, retention, operations and electrical-domain input.</p>
+          <div class="founder-card__quals" aria-label="Qualifications">
+            <div class="founder-card__qual">
+              <span class="founder-card__qual-dot" aria-hidden="true"></span>
+              <span>BEng Electrical Engineering — Mumbai University, 2022</span>
+            </div>
+            <div class="founder-card__qual">
+              <span class="founder-card__qual-dot" aria-hidden="true"></span>
+              <span>MSc Engineering Management — De Montfort University, 2024</span>
+            </div>
+          </div>
+        </article>
+        <article class="founder-card fade-up fade-up-delay-2">
+          <div class="founder-card__name">Farooq Chaudhary</div>
+          <div class="founder-card__role">Co-Founder &amp; Chief Technology Officer</div>
+          <p class="founder-card__resp">Responsible for platform architecture, engineering, technical delivery and integrations.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PLATFORM
+============================================================ -->
+<section id="platform" class="section" aria-labelledby="platform-title">
+  <div class="container">
+    <div class="section-header text-center fade-up">
+      <div class="badge" aria-hidden="true">Platform Capabilities</div>
+      <h2 class="section-title" id="platform-title">12 capabilities across four lifecycle stages.</h2>
+      <p class="section-lead">Every capability is built around a single principle: keep the installation record alive from commissioning through the full lifecycle.</p>
+    </div>
+
+    <div class="platform-categories">
+
+      <!-- CAPTURE -->
+      <div class="fade-up">
+        <div class="platform-category__header">
+          <span class="platform-category__pill pill--capture">
+            📥 Capture
+          </span>
+          <span class="platform-category__desc">Record and preserve everything at point of installation.</span>
+        </div>
+        <div class="capability-grid">
+          <div class="capability-card">
+            <div class="capability-card__num">01</div>
+            <span class="capability-card__icon" aria-hidden="true">🗂️</span>
+            <div class="capability-card__title">Unified Installation Record</div>
+            <div class="capability-card__desc">All installation details — location, equipment, engineer, commissioning date — captured in a single structured record.</div>
+          </div>
+          <div class="capability-card">
+            <div class="capability-card__num">02</div>
+            <span class="capability-card__icon" aria-hidden="true">📄</span>
+            <div class="capability-card__title">Certificate &amp; Notification Store</div>
+            <div class="capability-card__desc">Certificates and notifications attached directly to the installation record, eliminating email and folder chaos.</div>
+          </div>
+          <div class="capability-card">
+            <div class="capability-card__num">03</div>
+            <span class="capability-card__icon" aria-hidden="true">🏛️</span>
+            <div class="capability-card__title">Grant Documentation Vault</div>
+            <div class="capability-card__desc">Grant application and approval documentation stored against the installation it relates to — auditable and retrievable.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROTECT -->
+      <div class="fade-up">
+        <div class="platform-category__header">
+          <span class="platform-category__pill pill--protect">
+            🛡️ Protect
+          </span>
+          <span class="platform-category__desc">Evaluate and safeguard warranty entitlement automatically.</span>
+        </div>
+        <div class="capability-grid">
+          <div class="capability-card">
+            <div class="capability-card__num">04</div>
+            <span class="capability-card__icon" aria-hidden="true">⚙️</span>
+            <div class="capability-card__title">Multi-Brand Warranty Engine</div>
+            <div class="capability-card__desc">Evaluates manufacturer-specific rules for warranty entitlement — covering brand, model, duration, registration and installer approval.</div>
+          </div>
+          <div class="capability-card">
+            <div class="capability-card__num">05</div>
+            <span class="capability-card__icon" aria-hidden="true">📅</span>
+            <div class="capability-card__title">Commissioning-Date Validation</div>
+            <div class="capability-card__desc">Validates and locks the commissioning date — the anchor for warranty calculation, expiry and rule evaluation.</div>
+          </div>
+          <div class="capability-card">
+            <div class="capability-card__num">06</div>
+            <span class="capability-card__icon" aria-hidden="true">🔔</span>
+            <div class="capability-card__title">Warranty Expiry Alerts</div>
+            <div class="capability-card__desc">Automated alerts as warranty milestones approach — giving contractors time to act before entitlement is lost.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAINTAIN -->
+      <div class="fade-up">
+        <div class="platform-category__header">
+          <span class="platform-category__pill pill--maintain">
+            🔧 Maintain
+          </span>
+          <span class="platform-category__desc">Monitor ongoing compliance across schemes, approvals and standards.</span>
+        </div>
+        <div class="capability-grid">
+          <div class="capability-card">
+            <div class="capability-card__num">07</div>
+            <span class="capability-card__icon" aria-hidden="true">📋</span>
+            <div class="capability-card__title">Scheme Registration Tracker</div>
+            <div class="capability-card__desc">Tracks competent-person scheme registrations and flags gaps or renewals required to maintain compliance.</div>
+          </div>
+          <div class="capability-card">
+            <div class="capability-card__num">08</div>
+            <span class="capability-card__icon" aria-hidden="true">🏷️</span>
+            <div class="capability-card__title">Manufacturer Approval Tracking</div>
+            <div class="capability-card__desc">Monitors installer-level manufacturer approvals, ensuring any lapses that affect warranty are surfaced immediately.</div>
+          </div>
+          <div class="capability-card">
+            <div class="capability-card__num">09</div>
+            <span class="capability-card__icon" aria-hidden="true">📐</span>
+            <div class="capability-card__title">Standards &amp; Amendment Alerts</div>
+            <div class="capability-card__desc">Tracks changes to relevant electrical standards and amendments, alerting contractors to compliance implications.</div>
+          </div>
+          <div class="capability-card" style="grid-column: span 1;">
+            <div class="capability-card__num">10</div>
+            <span class="capability-card__icon" aria-hidden="true">🔁</span>
+            <div class="capability-card__title">Callback &amp; Fault Correlation</div>
+            <div class="capability-card__desc">Callback and fault records linked to the original installation — building a complete history for informed diagnosis and resolution.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONNECT -->
+      <div class="fade-up">
+        <div class="platform-category__header">
+          <span class="platform-category__pill pill--connect">
+            🔗 Connect
+          </span>
+          <span class="platform-category__desc">Share, report and verify across the full stakeholder chain.</span>
+        </div>
+        <div class="capability-grid">
+          <div class="capability-card">
+            <div class="capability-card__num">11</div>
+            <span class="capability-card__icon" aria-hidden="true">🏠</span>
+            <div class="capability-card__title">Homeowner Verification Portal</div>
+            <div class="capability-card__desc">Homeowners can access relevant installation information — certificate details, warranty status, installer identity — via a secure portal.</div>
+          </div>
+          <div class="capability-card">
+            <div class="capability-card__num">12</div>
+            <span class="capability-card__icon" aria-hidden="true">📊</span>
+            <div class="capability-card__title">Portfolio &amp; Brand Reporting</div>
+            <div class="capability-card__desc">Contractor-level reporting across installation portfolio — warranty statuses, approval positions, compliance summaries and brand mix.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Warranty Rule Engine -->
+    <div class="warranty-engine fade-up" aria-labelledby="engine-title">
+      <div>
+        <div class="badge" style="margin-bottom: 16px;" aria-hidden="true">Spotlight</div>
+        <h3 class="warranty-engine__title" id="engine-title">The Warranty Rule Engine</h3>
+        <p class="warranty-engine__body">
+          Each manufacturer has its own warranty rules — and they change over time. The Warranty Rule Engine evaluates the exact rule set applicable at the point of commissioning, so historical installations are never affected by later rule changes.
+        </p>
+        <div class="warranty-engine__highlight">
+          <strong>Versioned by design.</strong> Historical installations retain the rule version that was applicable when they were commissioned — ensuring the warranty assessment remains accurate and auditable years later.
+        </div>
+      </div>
+      <div class="warranty-engine__rules" role="list" aria-label="Rule engine evaluation factors">
+        <div class="warranty-rule" role="listitem">
+          <div class="warranty-rule__icon" aria-hidden="true">🏷️</div>
+          <div class="warranty-rule__label">Brand / Model</div>
+          <div class="warranty-rule__value">Specific product identification</div>
+        </div>
+        <div class="warranty-rule" role="listitem">
+          <div class="warranty-rule__icon" aria-hidden="true">⏱️</div>
+          <div class="warranty-rule__label">Warranty Duration</div>
+          <div class="warranty-rule__value">Manufacturer-defined period</div>
+        </div>
+        <div class="warranty-rule" role="listitem">
+          <div class="warranty-rule__icon" aria-hidden="true">📅</div>
+          <div class="warranty-rule__label">Commissioning Date</div>
+          <div class="warranty-rule__value">Validated start point</div>
+        </div>
+        <div class="warranty-rule" role="listitem">
+          <div class="warranty-rule__icon" aria-hidden="true">📝</div>
+          <div class="warranty-rule__label">Registration Requirements</div>
+          <div class="warranty-rule__value">Post-install obligations</div>
+        </div>
+        <div class="warranty-rule" role="listitem">
+          <div class="warranty-rule__icon" aria-hidden="true">✅</div>
+          <div class="warranty-rule__label">Installer Approval</div>
+          <div class="warranty-rule__value">Approval status at install</div>
+        </div>
+        <div class="warranty-rule" role="listitem">
+          <div class="warranty-rule__icon" aria-hidden="true">⚠️</div>
+          <div class="warranty-rule__label">Exceptions &amp; Downgrades</div>
+          <div class="warranty-rule__value">Conditions that reduce entitlement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     HOW IT WORKS
+============================================================ -->
+<section id="how" class="section section--alt" aria-labelledby="how-title">
+  <div class="container">
+    <div class="section-header text-center fade-up">
+      <div class="badge" aria-hidden="true">How It Works</div>
+      <h2 class="section-title" id="how-title">From first record to final resolution.</h2>
+      <p class="section-lead">Six steps. One unbroken thread.</p>
+    </div>
+
+    <div class="how-steps" role="list">
+      <div class="step-card fade-up" role="listitem">
+        <div class="step-card__num" aria-hidden="true">1</div>
+        <div class="step-card__title">Capture</div>
+        <div class="step-card__desc">The engineer records the installation — equipment, location, commissioning date and all relevant details.</div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-1" role="listitem">
+        <div class="step-card__num" aria-hidden="true">2</div>
+        <div class="step-card__title">Create Record</div>
+        <div class="step-card__desc">CertTrace creates the structured installation record — the permanent anchor for everything that follows.</div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-2" role="listitem">
+        <div class="step-card__num" aria-hidden="true">3</div>
+        <div class="step-card__title">Validate</div>
+        <div class="step-card__desc">Warranty entitlement, installer approvals, scheme registration and compliance conditions are evaluated against current rule sets.</div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-3" role="listitem">
+        <div class="step-card__num" aria-hidden="true">4</div>
+        <div class="step-card__title">Track</div>
+        <div class="step-card__desc">Warranty expiry, approval status, standards changes and any callbacks are tracked continuously over time.</div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-1" role="listitem">
+        <div class="step-card__num" aria-hidden="true">5</div>
+        <div class="step-card__title">Verify</div>
+        <div class="step-card__desc">Homeowners can access their relevant installation information via the secure Homeowner Verification Portal.</div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-2" role="listitem">
+        <div class="step-card__num" aria-hidden="true">6</div>
+        <div class="step-card__title">Resolve</div>
+        <div class="step-card__desc">Years later, the installer searches the address and sees the full picture — brand, commissioning date, warranty, engineer, approvals and complete callback history.</div>
+      </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="comparison fade-up">
+      <div class="comparison-panel comparison-panel--before" aria-label="Without CertTrace">
+        <div class="comparison-panel__header">
+          <div class="comparison-panel__icon comparison-panel__icon--before" aria-hidden="true">✕</div>
+          <div class="comparison-panel__title">Without CertTrace</div>
+        </div>
+        <div class="fragments-list" role="list" aria-label="Fragmented information sources">
+          <span class="fragment-chip" role="listitem">Certificate software</span>
+          <span class="fragment-chip" role="listitem">Email inbox</span>
+          <span class="fragment-chip" role="listitem">Manufacturer portal</span>
+          <span class="fragment-chip" role="listitem">Spreadsheet</span>
+          <span class="fragment-chip" role="listitem">Scheme record system</span>
+        </div>
+        <div class="fragments-arrow" aria-hidden="true">→</div>
+        <div class="fragments-result" role="alert">Fragmented. Incomplete. Difficult to retrieve.</div>
+      </div>
+      <div class="comparison-panel comparison-panel--after" aria-label="With CertTrace">
+        <div class="comparison-panel__header">
+          <div class="comparison-panel__icon comparison-panel__icon--after" aria-hidden="true">✓</div>
+          <div class="comparison-panel__title" style="color:white;">With CertTrace</div>
+        </div>
+        <div class="after-record">
+          <div class="after-record__icon" aria-hidden="true">🔗</div>
+          <div class="after-record__label">One continuous installation record.</div>
+          <div class="after-record__desc">Installation &rarr; Certification &rarr; Warranty &rarr; Compliance &rarr; Alerts &rarr; Callback — all connected in a single, searchable lifecycle record that stays live for the life of the installation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     MARKET & PRICING
+============================================================ -->
+<section id="market" class="section" aria-labelledby="market-title">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="badge" aria-hidden="true">Market &amp; Pricing</div>
+      <h2 class="section-title" id="market-title">Built for UK electrical contractors. Priced for businesses of all sizes.</h2>
+    </div>
+
+    <!-- Market -->
+    <h3 class="section-title" style="font-size: 1.25rem; margin-bottom: 8px;" id="market-size-title">Market Opportunity</h3>
+    <p class="section-lead" style="margin-bottom: 32px;">CertTrace is initially targeting the UK EV chargepoint installation market, with a broader electrical contractor addressable market beyond.</p>
+
+    <div class="market-grid" role="list" aria-labelledby="market-size-title">
+      <div class="market-card market-card--tam fade-up" role="listitem">
+        <div class="market-card__label">TAM</div>
+        <div class="market-card__title">Total Addressable Market</div>
+        <div class="market-card__value">40,000</div>
+        <div class="market-card__sub">contractor businesses</div>
+        <div class="market-card__detail">All competent-person-scheme registered contractor businesses. Estimated annual market value: <strong>£48.84m</strong></div>
+      </div>
+      <div class="market-card market-card--sam fade-up fade-up-delay-1" role="listitem">
+        <div class="market-card__label">SAM</div>
+        <div class="market-card__title">Serviceable Addressable Market</div>
+        <div class="market-card__value">14,400</div>
+        <div class="market-card__sub">businesses</div>
+        <div class="market-card__detail">EV-active businesses and/or those with 2+ engineers. Estimated annual market value: <strong>£17.58m</strong></div>
+      </div>
+      <div class="market-card market-card--target fade-up fade-up-delay-2" role="listitem">
+        <div class="market-card__label">Year-3 Target</div>
+        <div class="market-card__title">Modelled Subscriber Target</div>
+        <div class="market-card__value">647</div>
+        <div class="market-card__sub">subscribing businesses</div>
+        <div class="market-card__detail">Approximately 4.5% of the served market. Modelled annual value: <strong>~£790k</strong></div>
+      </div>
+    </div>
+    <div class="market-disclaimer fade-up" role="note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      These figures are business-plan estimates and modelled targets, not current traction, revenue or confirmed customer numbers.
+    </div>
+
+    <!-- Pricing -->
+    <div style="margin-top: 72px;">
+      <h3 class="section-title" style="font-size: 1.25rem; margin-bottom: 8px;" id="pricing-title">Pricing</h3>
+      <p class="section-lead" style="margin-bottom: 32px;">Per business, not per user. Flat monthly subscription. No hidden fees.</p>
+
+      <div class="pricing-grid" role="list" aria-labelledby="pricing-title">
+        <div class="pricing-card fade-up" role="listitem">
+          <div class="pricing-card__tier">Sole Trader</div>
+          <div class="pricing-card__price">
+            <div class="pricing-card__amount">£34</div>
+            <div class="pricing-card__period">/month</div>
+          </div>
+          <div class="pricing-card__engineers">1 engineer</div>
+          <button class="btn-outline pricing-card__cta" onclick="openModal()" aria-label="Request a pilot for Sole Trader plan">Request a Pilot</button>
+        </div>
+        <div class="pricing-card pricing-card--featured fade-up fade-up-delay-1" role="listitem">
+          <div class="pricing-card__badge" aria-label="Most popular plan">Most Popular</div>
+          <div class="pricing-card__tier">Small Team</div>
+          <div class="pricing-card__price">
+            <div class="pricing-card__amount">£89</div>
+            <div class="pricing-card__period">/month</div>
+          </div>
+          <div class="pricing-card__engineers">2–5 engineers</div>
+          <button class="btn-primary pricing-card__cta" onclick="openModal()" aria-label="Request a pilot for Small Team plan">Request a Pilot</button>
+        </div>
+        <div class="pricing-card fade-up fade-up-delay-2" role="listitem">
+          <div class="pricing-card__tier">Multi-Engineer</div>
+          <div class="pricing-card__price">
+            <div class="pricing-card__amount">£229</div>
+            <div class="pricing-card__period">/month</div>
+          </div>
+          <div class="pricing-card__engineers">6–20 engineers</div>
+          <button class="btn-outline pricing-card__cta" onclick="openModal()" aria-label="Request a pilot for Multi-Engineer plan">Request a Pilot</button>
+        </div>
+        <div class="pricing-card fade-up fade-up-delay-3" role="listitem">
+          <div class="pricing-card__tier">Group</div>
+          <div class="pricing-card__price">
+            <div class="pricing-card__amount">£495</div>
+            <div class="pricing-card__period">/month</div>
+          </div>
+          <div class="pricing-card__engineers">21+ engineers</div>
+          <button class="btn-outline pricing-card__cta" onclick="openModal()" aria-label="Request a pilot for Group plan">Request a Pilot</button>
+        </div>
+      </div>
+
+      <div class="pricing-note fade-up">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Pricing is per business, not per user. All prices shown exclude VAT.
+      </div>
+
+      <div class="addons fade-up">
+        <div class="addons__title">Optional Add-ons</div>
+        <div class="addon-row" role="listitem" aria-label="White-label Homeowner Portal add-on">
+          <div class="addon-row__info">
+            <div class="addon-row__name">White-label Homeowner Portal</div>
+            <div class="addon-row__desc">Branded homeowner verification experience on your own identity.</div>
+          </div>
+          <div class="addon-row__price">£45/month</div>
+        </div>
+        <div class="addon-row" role="listitem" aria-label="Assisted Migration add-on">
+          <div class="addon-row__info">
+            <div class="addon-row__name">Assisted Migration</div>
+            <div class="addon-row__desc">One-off service to migrate historical installation records into CertTrace.</div>
+          </div>
+          <div class="addon-row__price">£295 one-off</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section id="faq" class="section section--alt" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="section-header text-center fade-up">
+      <div class="badge" aria-hidden="true">FAQ</div>
+      <h2 class="section-title" id="faq-title">Frequently asked questions.</h2>
+      <p class="section-lead">Clear answers. No ambiguity.</p>
+    </div>
+
+    <div class="faq-list" role="list">
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-1" id="faq-q-1">
+          <span class="faq-btn__q">What is CertTrace?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
+          CertTrace is a compliance and warranty lifecycle platform for UK electrical contractors. It creates one continuous digital installation record covering installation details, certificates, grant documentation, manufacturer warranties, approvals, compliance requirements, standards changes, callback history and homeowner verification — connected throughout the full lifecycle of each installation.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-2" id="faq-q-2">
+          <span class="faq-btn__q">Who is it for?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
+          CertTrace is designed for UK electrical contractors — sole traders through to multi-engineer businesses and group operations. The initial focus is on EV chargepoint installers, where the complexity of manufacturer warranties, scheme registrations and grant documentation is particularly acute.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-3" id="faq-q-3">
+          <span class="faq-btn__q">Does it replace my certificate software?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
+          No. CertTrace is not a certificate production platform. It stores and links certificates — but it does not generate them. It is designed to work alongside your existing certificate software, not replace it.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-4" id="faq-q-4">
+          <span class="faq-btn__q">Does it replace my job-management software?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
+          No. CertTrace does not handle quoting, scheduling, invoicing or job management. It is focused on the compliance and warranty lifecycle record that begins at the point of installation and continues indefinitely. It works alongside existing job-management tools.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-5" id="faq-q-5">
+          <span class="faq-btn__q">Does CertTrace monitor chargers?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
+          No. CertTrace is not a charger monitoring or IoT platform. It does not connect to chargepoints or read live operational data. It manages the compliance and warranty lifecycle record — not real-time device telemetry.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-6" id="faq-q-6">
+          <span class="faq-btn__q">How does the warranty engine work?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-6" role="region" aria-labelledby="faq-q-6">
+          The Warranty Rule Engine evaluates manufacturer-specific rules for each installation — including brand, model, warranty duration, commissioning date, registration requirements, installer approval status and any exceptions or downgrade conditions. Crucially, the rule version applicable at the time of commissioning is retained with the record — so historical installations are never affected by later rule changes.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-7" id="faq-q-7">
+          <span class="faq-btn__q">Can homeowners access their installation information?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-7" role="region" aria-labelledby="faq-q-7">
+          Yes. The Homeowner Verification Portal gives homeowners controlled access to their relevant installation information — including certificate details, warranty status and installer identity. An optional white-label version is available as an add-on for contractors who want to present it under their own brand.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-8" id="faq-q-8">
+          <span class="faq-btn__q">Is CertTrace only for EV chargepoint installations?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-8" role="region" aria-labelledby="faq-q-8">
+          Initially, yes. CertTrace is built first for UK electrical contractors installing EV chargepoints, where the warranty, scheme and compliance landscape is particularly complex. The platform is designed to expand across electrical installation types over time.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-9" id="faq-q-9">
+          <span class="faq-btn__q">How much does it cost?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-9" role="region" aria-labelledby="faq-q-9">
+          CertTrace is priced on a flat monthly subscription per business — not per user. Plans start at £34/month for sole traders, £89/month for small teams (2–5 engineers), £229/month for multi-engineer businesses (6–20 engineers), and £495/month for groups (21+ engineers). Optional add-ons include the White-label Homeowner Portal (£45/month) and Assisted Migration (£295 one-off).
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-10" id="faq-q-10">
+          <span class="faq-btn__q">Is pricing per user?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-10" role="region" aria-labelledby="faq-q-10">
+          No. Pricing is per business. Each plan tier is defined by the number of engineers in the business — but you pay one monthly subscription for the business, not a separate fee per individual user account.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-11" id="faq-q-11">
+          <span class="faq-btn__q">Can historical records be migrated into CertTrace?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-11" role="region" aria-labelledby="faq-q-11">
+          Yes. The Assisted Migration add-on (£295 one-off) covers the service to migrate historical installation records into CertTrace. This is available as an optional add-on for businesses who want their existing portfolio brought into the platform.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-12" id="faq-q-12">
+          <span class="faq-btn__q">Is data stored in the UK?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-12" role="region" aria-labelledby="faq-q-12">
+          CertTrace is designed for UK cloud hosting and data residency. The platform includes role-based access control, an append-only audit trail and secure document storage.
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a-13" id="faq-q-13">
+          <span class="faq-btn__q">Is CertTrace currently ISO 27001 certified?</span>
+          <span class="faq-btn__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="faq-answer" id="faq-a-13" role="region" aria-labelledby="faq-q-13">
+          No. ISO 27001 certification and Cyber Essentials accreditation are on the CertTrace roadmap — not yet obtained. The platform is being built with ISO 27001 readiness in mind, and these certifications are planned as the business scales.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     CTA BAND
+============================================================ -->
+<div class="cta-band" role="complementary" aria-label="Call to action">
+  <div class="container cta-band__inner">
+    <h2 class="cta-band__headline fade-up">The installation doesn't end<br>when the job is complete.</h2>
+    <p class="cta-band__subline fade-up fade-up-delay-1">CertTrace keeps the record alive. Request a pilot and see it for yourself.</p>
+    <div class="cta-band__actions fade-up fade-up-delay-2">
+      <button class="btn-primary btn-large btn-white" onclick="openModal()">Request a Pilot</button>
+      <a href="#platform" class="btn-outline btn-large" style="color: rgba(255,255,255,.8); border-color: rgba(255,255,255,.3);">Explore the Platform</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-logo">
+          CertTrace
+        </div>
+        <p class="footer__brand-desc">Compliance and warranty lifecycle management for electrical contractors.</p>
+        <button class="btn-primary" onclick="openModal()">Request a Pilot</button>
+      </div>
+      <div>
+        <div class="footer__col-title">Navigation</div>
+        <nav class="footer__links" aria-label="Footer navigation">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#platform">Platform</a>
+          <a href="#how">How It Works</a>
+          <a href="#market">Market &amp; Pricing</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <div>
+        <div class="footer__col-title">Legal</div>
+        <nav class="footer__links" aria-label="Legal links">
+          <a href="#" aria-label="Privacy policy (coming soon)">Privacy</a>
+          <a href="#" aria-label="Terms of service (coming soon)">Terms</a>
+        </nav>
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <div class="footer__links">
+          <a href="#platform">Capabilities</a>
+          <a href="#platform">Warranty Engine</a>
+          <a href="#market">Pricing</a>
+          <a href="#how">How It Works</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 CertTrace Ltd. All rights reserved.</span>
+      <span>Built for UK electrical contractors.</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     PILOT MODAL
+============================================================ -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-subtitle">
+  <div class="modal" id="modal">
+    <button class="modal__close" onclick="closeModal()" aria-label="Close dialog">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <!-- Form -->
+    <div id="modal-form-wrapper">
+      <div class="modal__badge"><span class="badge">Request a Pilot</span></div>
+      <h2 class="modal__title" id="modal-title">Join the CertTrace pilot.</h2>
+      <p class="modal__subtitle" id="modal-subtitle">Tell us about your business and we'll be in touch to discuss how CertTrace can work for you.</p>
+
+      <form id="pilot-form" novalidate aria-label="Pilot request form">
+        <div class="form-group">
+          <label class="form-label" for="fullName">Full Name <span class="required" aria-label="required">*</span></label>
+          <input class="form-input" type="text" id="fullName" name="fullName" autocomplete="name" placeholder="e.g. John Smith" required aria-required="true" aria-describedby="fullName-error" />
+          <div class="form-error" id="fullName-error" role="alert" aria-live="polite">Please enter your full name.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phoneNumber">Phone Number <span class="required" aria-label="required">*</span></label>
+          <input class="form-input" type="tel" id="phoneNumber" name="phoneNumber" autocomplete="tel" placeholder="e.g. 07700 900000" required aria-required="true" aria-describedby="phoneNumber-error" />
+          <div class="form-error" id="phoneNumber-error" role="alert" aria-live="polite">Please enter a valid UK phone number.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="emailAddress">Email Address <span class="required" aria-label="required">*</span></label>
+          <input class="form-input" type="email" id="emailAddress" name="emailAddress" autocomplete="email" placeholder="e.g. john@yourcompany.co.uk" required aria-required="true" aria-describedby="emailAddress-error" />
+          <div class="form-error" id="emailAddress-error" role="alert" aria-live="polite">Please enter a valid email address.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="organisationName">Organisation Name <span class="required" aria-label="required">*</span></label>
+          <input class="form-input" type="text" id="organisationName" name="organisationName" autocomplete="organization" placeholder="e.g. Smith Electrical Ltd" required aria-required="true" aria-describedby="organisationName-error" />
+          <div class="form-error" id="organisationName-error" role="alert" aria-live="polite">Please enter your organisation name.</div>
+        </div>
+        <button type="submit" class="btn-primary btn-large form-submit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Submit Request
+        </button>
+      </form>
+    </div>
+
+    <!-- Success State -->
+    <div class="modal-success" id="modal-success" role="status" aria-live="assertive">
+      <div class="modal-success__icon" aria-hidden="true">✅</div>
+      <h3 class="modal-success__title">Request received</h3>
+      <p class="modal-success__body">Thank you. Your pilot request has been recorded.<br><br>We will review your details and be in touch shortly.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ---- Navbar scroll shadow ---- */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  /* ---- Mobile nav ---- */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  function closeMobileNav() {
+    mobileNav.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navbar.contains(e.target) && !mobileNav.contains(e.target)) {
+      closeMobileNav();
+    }
+  });
+
+  /* ---- Scroll animations ---- */
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  fadeEls.forEach(el => observer.observe(el));
+
+  /* ---- FAQ accordion ---- */
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+      });
+
+      // Toggle clicked
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* ---- Modal ---- */
+  const modalOverlay = document.getElementById('modal-overlay');
+  let lastFocused = null;
+
+  function openModal() {
+    lastFocused = document.activeElement;
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    resetForm();
+    // Focus first input after animation
+    setTimeout(() => {
+      const firstInput = document.getElementById('fullName');
+      if (firstInput) firstInput.focus();
+    }, 100);
+    trapFocus(document.getElementById('modal'));
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  // Close on overlay click
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+  });
+
+  // Focus trap
+  function trapFocus(el) {
+    const focusable = el.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+    el.addEventListener('keydown', function handler(e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+      if (!modalOverlay.classList.contains('open')) el.removeEventListener('keydown', handler);
+    });
+  }
+
+  /* ---- Pilot form validation & localStorage ---- */
+  const pilotForm = document.getElementById('pilot-form');
+
+  function showError(fieldId, show) {
+    const input = document.getElementById(fieldId);
+    const error = document.getElementById(fieldId + '-error');
+    if (show) {
+      input.classList.add('error');
+      error.classList.add('show');
+    } else {
+      input.classList.remove('error');
+      error.classList.remove('show');
+    }
+  }
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }
+
+  function validatePhone(phone) {
+    // UK phone: allow digits, spaces, +, -, (, ), min 7 digits
+    const digits = phone.replace(/\D/g, '');
+    return digits.length >= 7 && digits.length <= 15;
+  }
+
+  function resetForm() {
+    pilotForm.reset();
+    document.getElementById('modal-form-wrapper').style.display = 'block';
+    document.getElementById('modal-success').classList.remove('show');
+    ['fullName','phoneNumber','emailAddress','organisationName'].forEach(id => showError(id, false));
+  }
+
+  pilotForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const fullName         = document.getElementById('fullName').value.trim();
+    const phoneNumber      = document.getElementById('phoneNumber').value.trim();
+    const emailAddress     = document.getElementById('emailAddress').value.trim();
+    const organisationName = document.getElementById('organisationName').value.trim();
+
+    let valid = true;
+
+    if (!fullName)                        { showError('fullName', true);         valid = false; } else { showError('fullName', false); }
+    if (!validatePhone(phoneNumber))      { showError('phoneNumber', true);      valid = false; } else { showError('phoneNumber', false); }
+    if (!validateEmail(emailAddress))     { showError('emailAddress', true);     valid = false; } else { showError('emailAddress', false); }
+    if (!organisationName)                { showError('organisationName', true); valid = false; } else { showError('organisationName', false); }
+
+    if (!valid) return;
+
+    // Build submission object
+    const submission = {
+      fullName,
+      phoneNumber,
+      emailAddress,
+      organisationName,
+      submissionDateTime: new Date().toISOString()
+    };
+
+    // Read existing → append → save (never overwrite)
+    try {
+      const key = 'certtrace_pilot_submissions';
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      if (!Array.isArray(existing)) {
+        // Safety: if stored value is corrupted, start fresh array
+        localStorage.setItem(key, JSON.stringify([submission]));
+      } else {
+        existing.push(submission);
+        localStorage.setItem(key, JSON.stringify(existing));
+      }
+    } catch (err) {
+      // localStorage unavailable (private browsing, quota exceeded, etc.)
+      // Still show success to user — data may not have persisted
+      console.warn('CertTrace: localStorage write failed.', err);
+    }
+
+    // Show success
+    document.getElementById('modal-form-wrapper').style.display = 'none';
+    const success = document.getElementById('modal-success');
+    success.classList.add('show');
+    success.focus();
+  });
+
+  // Live validation on blur
+  document.getElementById('fullName').addEventListener('blur', function() {
+    showError('fullName', !this.value.trim());
+  });
+  document.getElementById('phoneNumber').addEventListener('blur', function() {
+    showError('phoneNumber', !validatePhone(this.value.trim()));
+  });
+  document.getElementById('emailAddress').addEventListener('blur', function() {
+    showError('emailAddress', !validateEmail(this.value.trim()));
+  });
+  document.getElementById('organisationName').addEventListener('blur', function() {
+    showError('organisationName', !this.value.trim());
+  });
+</script>
+
+</body>
+</html>
