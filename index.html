@@ -109,26 +109,33 @@
     ========================================================= */
     .navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-      background: #ffffff;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       transition: box-shadow var(--transition);
     }
     .navbar.scrolled { box-shadow: var(--shadow-md); }
     .navbar__inner {
       display: flex; align-items: center; justify-content: space-between;
-      height: 82px; gap: 24px;
+      height: 76px; gap: 24px;
     }
+    /* ---- Logo wrapper ---- */
     .navbar__logo {
-      display: flex; align-items: center;
-      line-height: 1;
-      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100%;
+      background: transparent;
+      flex-shrink: 0;
+      text-decoration: none;
     }
-    .navbar__logo img {
-      height: 90px;
-      width: auto;
+    .navbar__logo svg {
       display: block;
-      object-fit: contain;
-      mix-blend-mode: multiply;
+      width: auto;
+      height: auto;
+      max-height: 40px;
+      max-width: 140px;
     }
     .navbar__logo-icon {
       width: 34px; height: 34px; border-radius: 8px;
@@ -136,7 +143,7 @@
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .navbar__logo-icon svg { width: 18px; height: 18px; color: #fff; }
+    .navbar__logo-icon svg.icon-svg { width: 18px; height: 18px; max-height: none; color: #fff; }
     .navbar__nav {
       display: flex; align-items: center; gap: 2px;
     }
@@ -160,7 +167,7 @@
       transition: all var(--transition);
     }
     .mobile-nav {
-      display: none; position: fixed; top: 82px; left: 0; right: 0; z-index: 899;
+      display: none; position: fixed; top: 76px; left: 0; right: 0; z-index: 899;
       background: var(--white); border-bottom: 1px solid var(--border);
       padding: 16px 24px 24px;
       flex-direction: column; gap: 4px;
@@ -216,7 +223,7 @@
        HERO
     ========================================================= */
     #home {
-      padding-top: 154px; padding-bottom: 104px;
+      padding-top: 148px; padding-bottom: 104px;
       background: linear-gradient(145deg, #e8effe 0%, #f0f5ff 30%, #ffffff 60%, #f0f9ff 100%);
       position: relative; overflow: hidden;
     }
@@ -777,15 +784,14 @@
     }
     .footer__brand-logo {
       display: flex; align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 16px; background: transparent;
     }
-    .footer__brand-logo img {
-      height: 50px;
-      width: auto;
+    .footer__brand-logo svg {
       display: block;
-      object-fit: contain;
-      /* screen blend makes white areas disappear on the dark footer */
-      mix-blend-mode: screen;
+      width: auto;
+      height: auto;
+      max-height: 38px;
+      max-width: 140px;
     }
     .footer__brand-desc { font-size: .875rem; line-height: 1.7; margin-bottom: 24px; }
     .footer__col-title {
@@ -930,6 +936,8 @@
       .pricing-grid { grid-template-columns: 1fr; }
       .grid-4 { grid-template-columns: 1fr; }
       .warranty-engine__rules { grid-template-columns: 1fr; }
+      /* Mobile logo */
+      .navbar__logo svg { max-height: 34px; max-width: 115px; }
     }
   </style>
 </head>
@@ -943,7 +951,23 @@
   <div class="container">
     <div class="navbar__inner">
       <a href="#home" class="navbar__logo" aria-label="CertTrace home">
-        <img src="logo.png" alt="CertTrace" />
+        <!-- Inline SVG logo — zero background, exact brand colours, sharp at all sizes -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 44" role="img" aria-label="CertTrace">
+          <title>CertTrace</title>
+          <defs>
+            <clipPath id="ct-hex-nav">
+              <polygon points="22,3 38,12 38,32 22,41 6,32 6,12"/>
+            </clipPath>
+          </defs>
+          <!-- Hexagon: navy fill (full) -->
+          <polygon points="22,3 38,12 38,32 22,41 6,32 6,12" fill="#0b1e3d"/>
+          <!-- Green lower half, clipped to hexagon -->
+          <rect x="0" y="22" width="44" height="22" fill="#15a35a" clip-path="url(#ct-hex-nav)"/>
+          <!-- White checkmark -->
+          <polyline points="13,23 20,31 33,13" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Wordmark: CertTrace -->
+          <text x="48" y="29" font-family="'DM Sans',Arial,sans-serif" font-size="17" font-weight="700" fill="#0b1e3d" letter-spacing="-0.2">CertTrace</text>
+        </svg>
       </a>
       <div class="navbar__nav" role="list">
         <a href="#home"     role="listitem">Home</a>
@@ -1782,7 +1806,19 @@
     <div class="footer__grid">
       <div>
         <div class="footer__brand-logo">
-          <img src="logo.png" alt="CertTrace" />
+          <!-- Inline SVG — icon colours pop on dark, wordmark in white -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 44" role="img" aria-label="CertTrace">
+            <title>CertTrace</title>
+            <defs>
+              <clipPath id="ct-hex-footer">
+                <polygon points="22,3 38,12 38,32 22,41 6,32 6,12"/>
+              </clipPath>
+            </defs>
+            <polygon points="22,3 38,12 38,32 22,41 6,32 6,12" fill="#1d4fd8"/>
+            <rect x="0" y="22" width="44" height="22" fill="#15a35a" clip-path="url(#ct-hex-footer)"/>
+            <polyline points="13,23 20,31 33,13" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="48" y="29" font-family="'DM Sans',Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="-0.2">CertTrace</text>
+          </svg>
         </div>
         <p class="footer__brand-desc">Compliance and warranty lifecycle management for electrical contractors.</p>
         <button class="btn-primary" onclick="openModal()">Request a Pilot</button>
