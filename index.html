@@ -109,26 +109,25 @@
     ========================================================= */
     .navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-      background: rgba(255,255,255,0.97);
-      backdrop-filter: blur(16px);
+      background: #ffffff;
       border-bottom: 1px solid var(--border);
       transition: box-shadow var(--transition);
     }
     .navbar.scrolled { box-shadow: var(--shadow-md); }
     .navbar__inner {
       display: flex; align-items: center; justify-content: space-between;
-      height: 70px; gap: 24px;
+      height: 82px; gap: 24px;
     }
     .navbar__logo {
       display: flex; align-items: center;
       line-height: 1;
+      background: #ffffff;
     }
     .navbar__logo img {
-      height: 56px;
+      height: 90px;
       width: auto;
       display: block;
       object-fit: contain;
-      /* multiply blends white logo background with the white navbar — makes it disappear */
       mix-blend-mode: multiply;
     }
     .navbar__logo-icon {
@@ -161,7 +160,7 @@
       transition: all var(--transition);
     }
     .mobile-nav {
-      display: none; position: fixed; top: 68px; left: 0; right: 0; z-index: 899;
+      display: none; position: fixed; top: 82px; left: 0; right: 0; z-index: 899;
       background: var(--white); border-bottom: 1px solid var(--border);
       padding: 16px 24px 24px;
       flex-direction: column; gap: 4px;
@@ -217,7 +216,7 @@
        HERO
     ========================================================= */
     #home {
-      padding-top: 144px; padding-bottom: 104px;
+      padding-top: 154px; padding-bottom: 104px;
       background: linear-gradient(145deg, #e8effe 0%, #f0f5ff 30%, #ffffff 60%, #f0f9ff 100%);
       position: relative; overflow: hidden;
     }
