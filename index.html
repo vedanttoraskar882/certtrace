@@ -951,22 +951,34 @@
   <div class="container">
     <div class="navbar__inner">
       <a href="#home" class="navbar__logo" aria-label="CertTrace home">
-        <!-- Inline SVG logo — zero background, exact brand colours, sharp at all sizes -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 44" role="img" aria-label="CertTrace">
+        <!--
+          Flat-top hexagon (landscape, wider than tall) — matches the real CertTrace logo.
+          Vertices of a flat-top regular hexagon, centre (20,21), radius 18:
+            Right      (38, 21)
+            Lower-R    (29, 37)
+            Lower-L    (11, 37)
+            Left        (2, 21)
+            Upper-L    (11,  5)
+            Upper-R    (29,  5)
+          Colour split: diagonal from Upper-R (29,5) → Lower-L (11,37)
+            Navy  = upper-left side of diagonal
+            Green = lower-right side of diagonal → polygon (29,5) (38,21) (29,37) (11,37)
+        -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 42" role="img" aria-label="CertTrace">
           <title>CertTrace</title>
           <defs>
             <clipPath id="ct-hex-nav">
-              <polygon points="22,3 38,12 38,32 22,41 6,32 6,12"/>
+              <polygon points="38,21 29,37 11,37 2,21 11,5 29,5"/>
             </clipPath>
           </defs>
-          <!-- Hexagon: navy fill (full) -->
-          <polygon points="22,3 38,12 38,32 22,41 6,32 6,12" fill="#0b1e3d"/>
-          <!-- Green lower half, clipped to hexagon -->
-          <rect x="0" y="22" width="44" height="22" fill="#15a35a" clip-path="url(#ct-hex-nav)"/>
+          <!-- Navy: full hexagon background -->
+          <polygon points="38,21 29,37 11,37 2,21 11,5 29,5" fill="#1b3a6b"/>
+          <!-- Green: lower-right diagonal section, clipped to hexagon -->
+          <polygon points="29,5 38,21 29,37 11,37" fill="#16a34a" clip-path="url(#ct-hex-nav)"/>
           <!-- White checkmark -->
-          <polyline points="13,23 20,31 33,13" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Wordmark: CertTrace -->
-          <text x="48" y="29" font-family="'DM Sans',Arial,sans-serif" font-size="17" font-weight="700" fill="#0b1e3d" letter-spacing="-0.2">CertTrace</text>
+          <polyline points="10,21 19,30 32,12" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- CertTrace wordmark -->
+          <text x="46" y="27" font-family="'DM Sans',Arial,sans-serif" font-size="16.5" font-weight="700" fill="#0b1e3d">CertTrace</text>
         </svg>
       </a>
       <div class="navbar__nav" role="list">
@@ -1806,18 +1818,22 @@
     <div class="footer__grid">
       <div>
         <div class="footer__brand-logo">
-          <!-- Inline SVG — icon colours pop on dark, wordmark in white -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 44" role="img" aria-label="CertTrace">
+          <!-- Same flat-top hexagon, blue icon visible on dark footer, white wordmark -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 42" role="img" aria-label="CertTrace">
             <title>CertTrace</title>
             <defs>
               <clipPath id="ct-hex-footer">
-                <polygon points="22,3 38,12 38,32 22,41 6,32 6,12"/>
+                <polygon points="38,21 29,37 11,37 2,21 11,5 29,5"/>
               </clipPath>
             </defs>
-            <polygon points="22,3 38,12 38,32 22,41 6,32 6,12" fill="#1d4fd8"/>
-            <rect x="0" y="22" width="44" height="22" fill="#15a35a" clip-path="url(#ct-hex-footer)"/>
-            <polyline points="13,23 20,31 33,13" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <text x="48" y="29" font-family="'DM Sans',Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="-0.2">CertTrace</text>
+            <!-- Blue (visible on dark bg): full hexagon -->
+            <polygon points="38,21 29,37 11,37 2,21 11,5 29,5" fill="#2563eb"/>
+            <!-- Green: lower-right diagonal section -->
+            <polygon points="29,5 38,21 29,37 11,37" fill="#16a34a" clip-path="url(#ct-hex-footer)"/>
+            <!-- White checkmark -->
+            <polyline points="10,21 19,30 32,12" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- White wordmark -->
+            <text x="46" y="27" font-family="'DM Sans',Arial,sans-serif" font-size="16.5" font-weight="700" fill="#ffffff">CertTrace</text>
           </svg>
         </div>
         <p class="footer__brand-desc">Compliance and warranty lifecycle management for electrical contractors.</p>
